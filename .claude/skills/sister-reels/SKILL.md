@@ -78,6 +78,15 @@ Match the color tone and lighting of the last reference image exactly: bright cl
 - 1번의 한국어 대사·입모양 문장을 항상 포함한다.
 - 얼굴이 레퍼런스와 다르면 영상을 다시 돌리지 말고 키프레임부터 다시 만든다.
 
+### 인형 같은 느낌 막기
+
+클링은 영상으로 바꾸면서 피부를 매끈하게 다듬고 입술 광을 키워서 인형처럼 만드는 경향이 있다. 앞 컷의 마지막 프레임을 다음 컷 시작 프레임으로 이어 쓰면 이 효과가 컷마다 쌓인다.
+
+- 모든 클링 프롬프트 끝에 `Preserve the exact realistic skin texture, pores and natural look of the start frame. No beauty filter, no skin smoothing, no doll-like face.`를 붙인다.
+- 네거티브 프롬프트: `doll-like face, plastic skin, airbrushed, skin smoothing, beauty filter, CGI, 3D render, overly glossy lips, English speech, distorted face, deformed hands, face morphing, flickering`
+- 마지막 프레임을 이어 쓰기 전에, 씨드림에서 **원래 키프레임을 질감 레퍼런스로 넣어 질감만 되살리는 편집**을 한 번 거친다.
+- 편집에서 아주 약한 그레인(노이즈)을 더하고 선명도를 살짝 낮추면 매끈한 느낌이 줄어든다. 노란 필터는 쓰지 않는다.
+
 ### Elements(레퍼런스) 칸
 
 시작 프레임은 항상 확정된 키프레임이다. Elements는 움직이는 동안 얼굴이 바뀌지 않게 붙잡는 용도로만 쓴다.
