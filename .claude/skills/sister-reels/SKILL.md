@@ -17,6 +17,8 @@ description: 언니·동생 AI 자매 릴스(인스타그램 숏폼) 제작 가�
 She speaks in Korean, saying "<한국어 대사>". Natural Korean lip movements and mouth shapes that match Korean pronunciation, clearly visible mouth, no English speech.
 ```
 
+- **말 속도:** 클링이 만든 목소리는 "언니 (쉬고) 모해?"처럼 단어 사이를 끊어 읽어서 대화 느낌이 죽는 경우가 있다. 대사 문장 뒤에 `in one breath, at a natural fast conversational pace, no pauses between words, casual everyday Korean speech`를 붙이고, 대사가 영상 앞부분 1~2초 안에 끝나도록 `right at the start` 같은 타이밍을 적는다. 사용자가 추출한 음성이 있으면 그 음성으로 립싱크하는 쪽이 속도와 억양을 가장 확실하게 맞춘다.
+- 주고받는 대화 느낌을 위해, 상대가 말을 걸면 다른 쪽이 짧게라도 반응(한숨, "아 왜…" 같은 무심한 한마디)하게 대본을 짠다.
 - 대사가 없는 컷(한숨, 정적 응시 등)은 `Her mouth stays closed, no speaking.` 또는 한숨처럼 소리만 내는 동작으로 쓴다. 엉뚱하게 입이 움직이는 것을 막기 위해서다.
 - 두 명이 나오는 컷에서는 **말하는 사람만** 입을 움직이게 하고, 다른 사람은 `the other sister keeps her mouth closed`로 고정한다.
 
