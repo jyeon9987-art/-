@@ -37,7 +37,7 @@ npm start
 
 ## 방/가구 추가하기
 
-`rooms.js` 의 `map` 은 글자 하나가 타일 하나입니다. 글자 뜻은 파일 맨 위 주석에 있습니다. 새 가구는 `public/game.js` 의 `FURN` 에 상자 목록으로 추가합니다.
+`rooms.js` 의 `map` 은 글자 하나가 타일 하나입니다. 글자 뜻은 파일 맨 위 주석에 있습니다. 새 가구는 `public/scene.js` 의 `FURN` 에 상자·둥근 덩어리·작은 장식의 목록으로 추가합니다. 벽지 색과 창문 위치는 방마다 `wall` 항목에서 정합니다.
 
 ## 파일 구성
 
@@ -47,7 +47,8 @@ npm start
 | `rooms.js` | 방 지도와 포털 |
 | `sponsors.json` | 광고판 내용 |
 | `public/spec.js` | 캐릭터 선택지 (서버 검증과 공유) |
-| `public/avatar.js` | 픽셀 캐릭터 그리기 |
+| `public/avatar.js` | 픽셀 미니미 그리기 (대각선 앞모습/뒷모습, 걷기 동작) |
+| `public/scene.js` | 가구, 바닥 타일, 벽지·창문이 있는 방 배경 그리기 |
 | `public/game.js` | 화면 그리기, 입력, 네트워크 |
 
 ## 아직 없는 것

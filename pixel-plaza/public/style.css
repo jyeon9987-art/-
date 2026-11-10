@@ -123,12 +123,12 @@ input:focus { outline: 3px solid #ffd0de; }
 .status { min-height: 18px; margin: 8px 0 0; text-align: center; font-size: 13px; color: var(--accent-d); }
 
 .creator-body { display: flex; gap: 16px; margin-bottom: 14px; }
-.preview-col { flex: 0 0 170px; display: flex; flex-direction: column; gap: 10px; }
+.preview-col { flex: 0 0 180px; display: flex; flex-direction: column; gap: 10px; }
 #preview {
-  width: 156px;
-  height: 216px;
+  width: 170px;
+  height: 250px;
   align-self: center;
-  background: repeating-conic-gradient(#e8f4ff 0 25%, #d8ecff 0 50%) 0 0 / 24px 24px;
+  background: repeating-conic-gradient(#fff0f5 0 25%, #ffe6ee 0 50%) 0 0 / 20px 20px;
   border: 2px solid var(--line);
   border-radius: 10px;
 }
@@ -152,7 +152,7 @@ input:focus { outline: 3px solid #ffd0de; }
 @media (max-width: 560px) {
   .creator-body { flex-direction: column; }
   .preview-col { flex: none; flex-direction: row; flex-wrap: wrap; align-items: center; }
-  #preview { width: 104px; height: 144px; }
+  #preview { width: 102px; height: 150px; }
   .preview-col .ghost, #nameRow { flex: 1 1 140px; width: auto; }
   .panel { padding: 14px; }
 }

@@ -10,22 +10,8 @@
   const WALK_SPEED = 4.5; // 초당 타일
   const BUBBLE_MS = 5500;
   const WALKABLE = '.=';
+  const DISCO = ['#ff8fa8', '#ffa97a', '#ffd76a', '#d8ec7a', '#9be08a', '#7fe0b8', '#7fd4ff', '#8fb4ff', '#a99bff', '#cf9bff', '#f59be8', '#ff8fc4'];
   const FONT = '"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif';
-
-  // 가구는 전부 "상자 쌓기"로 표현한다: [x, y, w, h, z0, z1, color] (x,y,w,h 는 타일 단위)
-  const FURN = {
-    T: [[0.4, 0.4, 0.2, 0.2, 0, 10, '#8a5a3b'], [0.1, 0.1, 0.8, 0.8, 10, 22, '#4caf50'], [0.25, 0.25, 0.5, 0.5, 22, 31, '#66c466']],
-    B: [[0.1, 0.25, 0.8, 0.5, 3, 6, '#c98a4b'], [0.1, 0.25, 0.8, 0.12, 6, 13, '#b57a3f']],
-    F: [[0, 0, 1, 1, 0, 5, '#b9c2cc'], [0.12, 0.12, 0.76, 0.76, 5, 6, '#5cc8ff'], [0.4, 0.4, 0.2, 0.2, 6, 16, '#d5dbe2'], [0.3, 0.3, 0.4, 0.4, 16, 18, '#8fdcff']],
-    L: [[0.42, 0.42, 0.16, 0.16, 0, 26, '#555b6e'], [0.32, 0.32, 0.36, 0.36, 26, 32, '#ffe37a']],
-    S: [[0.44, 0.44, 0.12, 0.12, 0, 20, '#6b6478']],
-    C: [[0, 0.1, 1, 0.8, 0, 13, '#b07a4a'], [0, 0.05, 1, 0.9, 13, 15, '#f1e4cf']],
-    k: [[0, 0.1, 1, 0.5, 0, 30, '#8a5a3b'], [0.06, 0.6, 0.88, 0.03, 3, 10, '#e85d75'], [0.06, 0.6, 0.88, 0.03, 12, 19, '#5b8def'], [0.06, 0.6, 0.88, 0.03, 21, 28, '#f2c14e']],
-    t: [[0.42, 0.42, 0.16, 0.16, 0, 9, '#9a6b42'], [0.1, 0.1, 0.8, 0.8, 9, 11, '#e9c28f'], [0.42, 0.42, 0.16, 0.16, 11, 14, '#ffffff']],
-    c: [[0.25, 0.25, 0.5, 0.5, 0, 6, '#e8796b'], [0.25, 0.25, 0.5, 0.12, 6, 14, '#d86455']],
-    s: [[0, 0.15, 1, 0.75, 0, 7, '#7a8fe0'], [0, 0.15, 1, 0.22, 7, 14, '#6a7fd0']],
-    p: [[0.3, 0.3, 0.4, 0.4, 0, 6, '#c96f4a'], [0.2, 0.2, 0.6, 0.6, 6, 16, '#3fa55a'], [0.32, 0.32, 0.36, 0.36, 16, 22, '#58c070']],
-  };
 
   let ws = null;
   let rooms = null;
@@ -351,108 +337,70 @@
   // ---------- 그리기 ----------
   const iso = (x, y) => [Math.round((x - y) * HALF_W + camX), Math.round((x + y) * HALF_H + camY)];
 
-  function poly(ctx, pts, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(pts[0][0], pts[0][1]);
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  function box(x, y, w, h, z0, z1, color) {
-    const a = iso(x, y);
-    const b = iso(x + w, y);
-    const c = iso(x + w, y + h);
-    const d = iso(x, y + h);
-    const up = (p, z) => [p[0], p[1] - z];
-    poly(wctx, [up(d, z1), up(c, z1), up(c, z0), up(d, z0)], shade(color, 0.82));
-    poly(wctx, [up(c, z1), up(b, z1), up(b, z0), up(c, z0)], shade(color, 0.66));
-    poly(wctx, [up(a, z1), up(b, z1), up(c, z1), up(d, z1)], color);
-  }
-
-  function floorColor(x, y, ch, t) {
-    const pal = room.palette;
-    const odd = (x + y) % 2;
-    if (ch === '=') {
-      if (room.disco) {
-        const hue = (Math.floor(t / 600) * 47 + x * 67 + y * 131) % 360;
-        return `hsl(${hue},85%,${odd ? 66 : 60}%)`;
-      }
-      return odd ? pal.c : pal.d;
-    }
-    return odd ? pal.a : pal.b;
-  }
-
   function drawRoom(t) {
-    const pal = room.palette;
-    const { w, h } = room;
-    // 벽 (실내만)
-    if (!room.outdoor) {
-      const H = 44;
-      const o = iso(0, 0);
-      const r = iso(w, 0);
-      const l = iso(0, h);
-      poly(wctx, [o, r, [r[0], r[1] - H], [o[0], o[1] - H]], pal.wallA);
-      poly(wctx, [o, l, [l[0], l[1] - H], [o[0], o[1] - H]], pal.wallB);
-      poly(wctx, [o, r, [r[0], r[1] - 5], [o[0], o[1] - 5]], shade(pal.wallA, 0.8));
-      poly(wctx, [o, l, [l[0], l[1] - 5], [o[0], o[1] - 5]], shade(pal.wallB, 0.8));
-    }
-    // 바닥 두께
-    const T = 7;
-    const bl = iso(0, h);
-    const bb = iso(w, h);
-    const br = iso(w, 0);
-    poly(wctx, [bl, bb, [bb[0], bb[1] + T], [bl[0], bl[1] + T]], shade(pal.side, 0.9));
-    poly(wctx, [bb, br, [br[0], br[1] + T], [bb[0], bb[1] + T]], shade(pal.side, 0.72));
-    // 타일
+    const bg = Scene.background(room);
+    const cx = Math.round(camX);
+    const cy = Math.round(camY);
+    wctx.drawImage(bg.canvas, cx - bg.ox, cy - bg.oy);
     const pulse = 0.5 + 0.5 * Math.sin(t / 300);
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        const ch = room.map[y][x];
-        const [sx, sy] = iso(x, y);
-        const diamond = [[sx, sy], [sx + HALF_W, sy + HALF_H], [sx, sy + HALF_H * 2], [sx - HALF_W, sy + HALF_H]];
-        poly(wctx, diamond, floorColor(x, y, WALKABLE.includes(ch) ? ch : '.', t));
-        if (portalAt(x, y)) {
-          wctx.globalAlpha = 0.55 + 0.35 * pulse;
-          poly(wctx, diamond, '#fff6a8');
-          wctx.globalAlpha = 1;
-        }
-        if (hover && hover.x === x && hover.y === y && walkable(x, y)) {
-          wctx.globalAlpha = 0.35;
-          poly(wctx, diamond, '#ffffff');
-          wctx.globalAlpha = 1;
+    const stamp = (x, y, color, kind, alpha) => {
+      const [sx, sy] = iso(x, y);
+      wctx.globalAlpha = alpha;
+      wctx.drawImage(Scene.tile(color, kind), sx - HALF_W, sy);
+      wctx.globalAlpha = 1;
+    };
+    if (room.disco) {
+      for (let y = 0; y < room.h; y++) {
+        for (let x = 0; x < room.w; x++) {
+          if (room.map[y][x] !== '=') continue;
+          const hue = ((Math.floor(t / 600) * 3 + x * 5 + y * 7) % 12) * 30;
+          stamp(x, y, DISCO[hue / 30], 'bevel', 1);
         }
       }
     }
+    for (const pt of room.portals) stamp(pt.x, pt.y, '#fff6a8', 'bevel', 0.6 + 0.4 * pulse);
+    if (hover && walkable(hover.x, hover.y)) stamp(hover.x, hover.y, '#ffffff', 'flat', 0.4);
   }
 
   function drawEntities(t) {
     const list = [];
     for (let y = 0; y < room.h; y++) {
       for (let x = 0; x < room.w; x++) {
-        const def = FURN[room.map[y][x]];
-        if (def) list.push({ depth: x + y, order: 0, def, x, y });
+        const f = Scene.furn(room.map[y][x]);
+        if (f) list.push({ depth: x + y, order: 0, f, x, y });
       }
     }
     for (const p of players.values()) list.push({ depth: p.px + p.py, order: 1, p });
     list.sort((a, b) => a.depth - b.depth || a.order - b.order);
     for (const e of list) {
-      if (e.def) {
-        for (const [bx, by, bw, bh, z0, z1, color] of e.def) box(e.x + bx, e.y + by, bw, bh, z0, z1, color);
+      if (e.f) {
+        const [sx, sy] = iso(e.x, e.y);
+        wctx.drawImage(e.f.canvas, sx - e.f.ax, sy - e.f.ay);
       } else {
         const p = e.p;
         const [fx, fy] = iso(p.px + 0.5, p.py + 0.5);
-        wctx.fillStyle = 'rgba(30,20,40,.25)';
-        wctx.fillRect(fx - 7, fy - 2, 14, 4);
-        wctx.fillRect(fx - 5, fy - 3, 10, 6);
+        Scene.ell(wctx, fx, fy, 9, 3, 'rgba(40,25,50,.22)');
         const walking = p.path.length > 0;
-        const frame = walking ? (Math.floor(t / 130) % 2 ? 1 : 2) : 0;
+        const frame = walking ? (Math.floor(t / 140) % 2 ? 1 : 2) : 0;
         const bob = walking && frame === 1 ? 1 : 0;
-        wctx.drawImage(getSprite(p.avatar, p.back, frame, p.flip), fx - SPRITE_W / 2, fy - SPRITE_H + 2 - bob);
+        const top = fy - AV_FOOT - bob;
+        wctx.drawImage(getSprite(p.avatar, p.back, frame, p.flip), fx - SPRITE_W / 2, top);
         p.sx = fx;
-        p.sy = fy - SPRITE_H;
+        p.sy = top;
       }
+    }
+  }
+
+  function drawBackdrop(t) {
+    wctx.fillStyle = room.bg;
+    wctx.fillRect(0, 0, lowW, lowH);
+    if (!room.outdoor) return;
+    // 잔잔한 물결
+    wctx.fillStyle = '#c4ecff';
+    for (let i = 0; i < 70; i++) {
+      const x = ((i * 97 + t / 180) % (lowW + 40)) - 20;
+      const y = (i * 53) % lowH;
+      wctx.fillRect(Math.round(x), y, 6 + (i % 3) * 2, 1);
     }
   }
 
@@ -514,7 +462,7 @@
       const w = Math.max(tw, sw) + 20;
       const h = sp.sub ? 38 : 24;
       const bx = x * scale - w / 2;
-      const by = (y - 20) * scale - h;
+      const by = (y - 30) * scale - h;
       octx.fillStyle = sp.color || '#888';
       octx.strokeStyle = '#2b2233';
       octx.lineWidth = 2;
@@ -603,8 +551,12 @@
       const me = players.get(myId);
       const fx = me ? me.px + 0.5 : room.w / 2;
       const fy = me ? me.py + 0.5 : room.h / 2;
-      const tx = lowW / 2 - (fx - fy) * HALF_W;
-      const ty = lowH / 2 - (fx + fy) * HALF_H + 8;
+      // 방이 화면에 다 들어오면 방을 가운데 고정, 아니면 내 캐릭터를 따라간다
+      const bg = Scene.background(room);
+      const fitsX = bg.canvas.width <= lowW;
+      const fitsY = bg.canvas.height + 30 <= lowH;
+      const tx = fitsX ? Math.round((lowW - bg.canvas.width) / 2) + bg.ox : lowW / 2 - (fx - fy) * HALF_W;
+      const ty = fitsY ? Math.round((lowH - bg.canvas.height) / 2) + bg.oy : lowH / 2 - (fx + fy) * HALF_H + 8;
       if (camSnap) {
         camX = tx;
         camY = ty;
@@ -614,8 +566,7 @@
         camX += (tx - camX) * k;
         camY += (ty - camY) * k;
       }
-      wctx.fillStyle = room.outdoor ? '#9fd8ff' : '#2b2440';
-      wctx.fillRect(0, 0, lowW, lowH);
+      drawBackdrop(now);
       drawRoom(now);
       drawEntities(now);
       drawOverlay(now);
