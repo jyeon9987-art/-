@@ -1,0 +1,7 @@
+{
+  "plaza-1": { "title": "광고 문의 환영", "sub": "이 자리에 브랜드를 걸어보세요", "color": "#ff7aa2", "url": "" },
+  "plaza-2": { "title": "협찬 자리", "sub": "sponsors.json 에서 수정", "color": "#5b8def", "url": "" },
+  "cafe-1": { "title": "오늘의 메뉴", "sub": "카페 협찬 배너 자리", "color": "#c98a4b", "url": "" },
+  "lounge-1": { "title": "DJ 부스 협찬", "sub": "광고 문의 환영", "color": "#9b6bff", "url": "" },
+  "lounge-2": { "title": "이벤트 배너", "sub": "여기에 링크를 걸 수 있어요", "color": "#2fb8a0", "url": "" }
+}
