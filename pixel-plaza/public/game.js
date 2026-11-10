@@ -46,9 +46,9 @@
   }
 
   // ---------- 캐릭터 만들기 화면 ----------
-  const OPTION_LABELS = { gender: '성별', body: '체형', face: '얼굴', hair: '머리 모양', top: '상의', bottom: '하의', acc: '악세서리' };
-  const COLOR_LABELS = { skin: '피부색', hairColor: '머리 색', topColor: '상의 색', bottomColor: '하의 색' };
-  const ORDER = ['gender', 'body', 'skin', 'face', 'hair', 'hairColor', 'top', 'topColor', 'bottom', 'bottomColor', 'acc'];
+  const OPTION_LABELS = { gender: '성별', body: '체형', face: '얼굴', hair: '머리 모양', top: '상의', bottom: '하의', shoes: '신발', acc: '머리 장식', back: '등 장식', hand: '손에 든 것' };
+  const COLOR_LABELS = { skin: '피부색', eyeColor: '눈 색', hairColor: '머리 색', topColor: '상의 색', bottomColor: '하의 색' };
+  const ORDER = ['gender', 'body', 'skin', 'face', 'eyeColor', 'hair', 'hairColor', 'top', 'topColor', 'bottom', 'bottomColor', 'shoes', 'acc', 'back', 'hand'];
   const refreshers = [];
 
   function buildCreator() {
@@ -386,7 +386,7 @@
         const top = fy - AV_FOOT - bob;
         wctx.drawImage(getSprite(p.avatar, p.back, frame, p.flip), fx - SPRITE_W / 2, top);
         p.sx = fx;
-        p.sy = top;
+        p.sy = top + AV_HEAD - 3;
       }
     }
   }

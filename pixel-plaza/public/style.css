@@ -123,17 +123,17 @@ input:focus { outline: 3px solid #ffd0de; }
 .status { min-height: 18px; margin: 8px 0 0; text-align: center; font-size: 13px; color: var(--accent-d); }
 
 .creator-body { display: flex; gap: 16px; margin-bottom: 14px; }
-.preview-col { flex: 0 0 180px; display: flex; flex-direction: column; gap: 10px; }
+.preview-col { flex: 0 0 204px; display: flex; flex-direction: column; gap: 10px; }
 #preview {
-  width: 170px;
-  height: 250px;
+  width: 200px;
+  height: 212px;
   align-self: center;
   background: repeating-conic-gradient(#fff0f5 0 25%, #ffe6ee 0 50%) 0 0 / 20px 20px;
   border: 2px solid var(--line);
   border-radius: 10px;
 }
 #nameRow { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; }
-.options { flex: 1; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.options { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .opt { display: flex; align-items: center; gap: 8px; }
 .opt > span.label { flex: 0 0 76px; font-size: 13px; font-weight: 700; }
 .stepper { flex: 1; display: flex; align-items: center; gap: 6px; }
@@ -152,7 +152,7 @@ input:focus { outline: 3px solid #ffd0de; }
 @media (max-width: 560px) {
   .creator-body { flex-direction: column; }
   .preview-col { flex: none; flex-direction: row; flex-wrap: wrap; align-items: center; }
-  #preview { width: 102px; height: 150px; }
+  #preview { width: 150px; height: 159px; }
   .preview-col .ghost, #nameRow { flex: 1 1 140px; width: auto; }
   .panel { padding: 14px; }
 }
